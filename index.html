@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Happy Birthday!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- floating pastel background blobs, purely decorative -->
+<div class="bg-blobs" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+</div>
+
+<!-- decorative party props, gently bobbing in the corners — purely visual,
+     kept at the body level (same layering approach as .bg-blobs above) and
+     confined to the outer margins so they never sit under the text/cards -->
+<div class="party-props" aria-hidden="true">
+  <svg class="prop prop-balloon prop-1" viewBox="0 0 60 100" aria-hidden="true">
+    <ellipse cx="30" cy="34" rx="26" ry="32" class="prop-fill-blue"/>
+    <ellipse cx="21" cy="20" rx="6" ry="10" class="prop-shine"/>
+    <polygon points="24,64 36,64 30,74" class="prop-fill-blue-dark"/>
+    <path d="M30 74 Q25 84 30 92" class="prop-string"/>
+  </svg>
+  <svg class="prop prop-balloon prop-2" viewBox="0 0 60 100" aria-hidden="true">
+    <ellipse cx="30" cy="34" rx="26" ry="32" class="prop-fill-teal"/>
+    <ellipse cx="21" cy="20" rx="6" ry="10" class="prop-shine"/>
+    <polygon points="24,64 36,64 30,74" class="prop-fill-teal-dark"/>
+    <path d="M30 74 Q35 84 30 92" class="prop-string"/>
+  </svg>
+  <svg class="prop prop-cake prop-3" viewBox="0 0 70 80" aria-hidden="true">
+    <path d="M18 76 Q35 82 52 76 L46 46 Q35 42 24 46 Z" class="prop-fill-teal-dark"/>
+    <ellipse cx="35" cy="42" rx="22" ry="14" class="prop-fill-blue"/>
+    <ellipse cx="35" cy="28" rx="15" ry="13" class="prop-fill-blue"/>
+    <ellipse cx="35" cy="16" rx="8" ry="9" class="prop-fill-blue"/>
+    <circle cx="35" cy="6" r="6" class="prop-fill-gold"/>
+  </svg>
+  <svg class="prop prop-balloon prop-5" viewBox="0 0 60 100" aria-hidden="true">
+    <ellipse cx="30" cy="34" rx="26" ry="32" class="prop-fill-gold"/>
+    <ellipse cx="21" cy="20" rx="6" ry="10" class="prop-shine"/>
+    <polygon points="24,64 36,64 30,74" class="prop-fill-gold-dark"/>
+    <path d="M30 74 Q25 84 30 92" class="prop-string"/>
+  </svg>
+  <svg class="prop prop-star prop-6" viewBox="0 0 40 40" aria-hidden="true">
+    <polygon points="20,2 25,15 39,15 27,24 32,38 20,29 8,38 13,24 1,15 15,15" class="prop-fill-gold"/>
+  </svg>
+</div>
+
+<!-- shared tease speech-bubble, positioned near whatever box is hovered -->
+<div id="tease-bubble" class="tease-bubble" aria-hidden="true"></div>
+
+<main id="app">
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: LANDING + BOXES (the opening view) -->
+  <!-- ============================================================ -->
+  <section id="screen-boxes" class="screen active">
+    <div class="landing-greeting-wrap">
+      <h1 class="landing-greeting" id="landing-greeting-1"></h1>
+    </div>
+
+    <h2 class="section-title">Choose Your Birthday Adventure</h2>
+
+    <div class="box-grid">
+      <button class="box-card" data-box="1" aria-label="Open the chest">
+        <span class="box-check" aria-hidden="true">&#10003;</span>
+        <span class="sparkle sparkle-a">&#10022;</span>
+        <span class="sparkle sparkle-b">&#10022;</span>
+        <svg class="box-icon" viewBox="0 0 200 200" role="img" aria-hidden="true">
+          <rect x="30" y="60" width="140" height="36" rx="14" class="chest-wood-dark"/>
+          <rect x="40" y="90" width="120" height="90" rx="14" class="chest-wood"/>
+          <rect x="90" y="60" width="20" height="120" class="gift-ribbon-1"/>
+          <rect x="30" y="68" width="140" height="12" class="gift-ribbon-1"/>
+          <ellipse cx="84" cy="56" rx="12" ry="8" class="gift-ribbon-1" transform="rotate(-20 84 56)"/>
+          <ellipse cx="116" cy="56" rx="12" ry="8" class="gift-ribbon-1" transform="rotate(20 116 56)"/>
+          <circle cx="100" cy="58" r="7" class="gift-ribbon-1-dark"/>
+          <text x="100" y="145" class="mystery-mark">?</text>
+        </svg>
+        <span class="box-label">The Chest</span>
+      </button>
+
+      <button class="box-card" data-box="2" aria-label="Open the joker box">
+        <span class="box-check" aria-hidden="true">&#10003;</span>
+        <span class="sparkle sparkle-a">&#10022;</span>
+        <span class="sparkle sparkle-b">&#10022;</span>
+        <svg class="box-icon" viewBox="0 0 200 200" role="img" aria-hidden="true">
+          <rect x="30" y="60" width="140" height="36" rx="14" class="joker-box-dark"/>
+          <rect x="40" y="90" width="120" height="90" rx="14" class="joker-box"/>
+          <rect x="90" y="60" width="20" height="120" class="gift-ribbon-2"/>
+          <rect x="30" y="68" width="140" height="12" class="gift-ribbon-2"/>
+          <ellipse cx="84" cy="56" rx="12" ry="8" class="gift-ribbon-2" transform="rotate(-20 84 56)"/>
+          <ellipse cx="116" cy="56" rx="12" ry="8" class="gift-ribbon-2" transform="rotate(20 116 56)"/>
+          <circle cx="100" cy="58" r="7" class="gift-ribbon-2-dark"/>
+          <text x="100" y="145" class="mystery-mark">?</text>
+        </svg>
+        <span class="box-label">The Joker Box</span>
+      </button>
+
+      <button class="box-card" data-box="3" aria-label="Try the roast or toast machine">
+        <span class="box-check" aria-hidden="true">&#10003;</span>
+        <span class="sparkle sparkle-a">&#10022;</span>
+        <span class="sparkle sparkle-b">&#10022;</span>
+        <svg class="box-icon" viewBox="0 0 200 200" role="img" aria-hidden="true">
+          <rect x="30" y="60" width="140" height="36" rx="14" class="gift-lid-3"/>
+          <rect x="40" y="90" width="120" height="90" rx="14" class="machine-body"/>
+          <rect x="90" y="60" width="20" height="120" class="gift-ribbon-3"/>
+          <rect x="30" y="68" width="140" height="12" class="gift-ribbon-3"/>
+          <ellipse cx="84" cy="56" rx="12" ry="8" class="gift-ribbon-3" transform="rotate(-20 84 56)"/>
+          <ellipse cx="116" cy="56" rx="12" ry="8" class="gift-ribbon-3" transform="rotate(20 116 56)"/>
+          <circle cx="100" cy="58" r="7" class="gift-ribbon-3-dark"/>
+          <text x="100" y="145" class="mystery-mark">?</text>
+        </svg>
+        <span class="box-label">Roast or Toast</span>
+      </button>
+    </div>
+
+    <button id="finale-banner" class="finale-banner hidden">
+      Everything is unlocked. Tap here.
+    </button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: BOX 1 — THE CHEST -->
+  <!-- ============================================================ -->
+  <section id="screen-box1" class="screen">
+    <button class="btn-back" data-back>&larr; back</button>
+
+    <div id="box1-game" class="box-stage">
+      <h2 class="section-title" id="box1-title"></h2>
+      <p class="section-sub" id="box1-instructions"></p>
+
+      <button id="chest-target" class="chest-target" aria-label="Click to open the chest">
+        <svg class="chest-svg" viewBox="0 0 240 200" role="img" aria-hidden="true">
+          <rect x="30" y="90" width="180" height="90" rx="14" class="chest-wood"/>
+          <path id="chest-lid" d="M30 90 Q30 40 120 40 Q210 40 210 90 Z" class="chest-wood-dark"/>
+          <rect x="100" y="40" width="40" height="140" class="chest-metal"/>
+          <circle id="chest-lock" cx="120" cy="105" r="16" class="chest-metal-dark"/>
+        </svg>
+      </button>
+
+      <p id="box1-progress-percent" class="progress-percent">0%</p>
+      <div class="progress-track" aria-hidden="true">
+        <div id="box1-progress-fill" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div id="box1-reveal" class="box-reveal hidden">
+      <svg class="reveal-svg" viewBox="0 0 200 220" role="img" aria-hidden="true">
+        <ellipse cx="100" cy="205" rx="55" ry="10" class="reveal-shadow"/>
+        <rect x="60" y="90" width="80" height="100" rx="30" class="char-body"/>
+        <circle cx="100" cy="70" r="42" class="char-head"/>
+        <circle cx="82" cy="65" r="5" class="char-eye"/>
+        <circle cx="118" cy="65" r="5" class="char-eye"/>
+        <path d="M85 82 Q100 92 115 82" class="char-smile"/>
+        <polygon points="80,32 120,32 100,4" class="party-hat"/>
+        <circle cx="100" cy="4" r="5" class="party-hat-pom"/>
+        <g transform="translate(128,120) rotate(15)">
+          <ellipse cx="0" cy="0" rx="28" ry="13" class="lizard-body"/>
+          <circle cx="24" cy="-2" r="8" class="lizard-body"/>
+          <circle cx="27" cy="-4" r="1.6" class="lizard-eye"/>
+          <path d="M-26 0 Q-40 6 -46 -2" class="lizard-tail"/>
+          <ellipse cx="-14" cy="9" rx="3" ry="6" class="lizard-body"/>
+          <ellipse cx="10" cy="9" rx="3" ry="6" class="lizard-body"/>
+        </g>
+      </svg>
+      <p id="box1-caption" class="reveal-caption"></p>
+      <button class="btn-continue" data-back>Back to the boxes</button>
+    </div>
+
+    <div id="box1-flash" class="white-flash" aria-hidden="true"></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: BOX 2 — THE JOKER BOX -->
+  <!-- ============================================================ -->
+  <section id="screen-box2" class="screen">
+    <button class="btn-back" data-back>&larr; back</button>
+
+    <div id="box2-game" class="box-stage">
+      <h2 class="section-title" id="box2-title"></h2>
+      <p class="section-sub" id="box2-instructions"></p>
+
+      <div id="crank-target" class="crank-target">
+        <svg class="joker-svg" viewBox="0 0 240 200" role="img" aria-hidden="true">
+          <g id="joker-figure" class="joker-figure">
+            <path d="M105 130 L108 100 L112 130 L116 100 L120 130 L124 100 L128 130 L132 100 L135 130" class="joker-spring"/>
+            <ellipse cx="120" cy="78" rx="24" ry="26" class="joker-face"/>
+            <circle cx="112" cy="74" r="4" class="joker-eye"/>
+            <circle cx="128" cy="74" r="4" class="joker-eye"/>
+            <path d="M108 88 Q120 100 132 88" class="joker-grin"/>
+            <polygon points="96,54 144,54 120,14" class="joker-hat"/>
+            <circle cx="120" cy="14" r="6" class="joker-hat-pom"/>
+            <circle cx="96" cy="54" r="6" class="joker-hat-pom"/>
+            <circle cx="144" cy="54" r="6" class="joker-hat-pom"/>
+          </g>
+          <rect x="50" y="110" width="140" height="70" rx="10" class="joker-box"/>
+          <rect id="joker-lid" x="50" y="90" width="140" height="25" rx="8" class="joker-box-dark"/>
+          <circle cx="210" cy="145" r="10" class="chest-metal-dark"/>
+          <g id="crank-handle" class="crank-handle">
+            <rect x="208" y="112" width="4" height="34" class="chest-metal"/>
+            <circle cx="210" cy="110" r="9" class="chest-metal-dark"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="progress-track" aria-hidden="true">
+        <div id="box2-progress-fill" class="progress-fill"></div>
+      </div>
+      <p id="box2-progress-label" class="progress-label"></p>
+      <audio id="box2-audio" preload="none"></audio>
+    </div>
+
+    <div id="box2-reveal" class="box-reveal hidden">
+      <p id="box2-caption" class="reveal-caption"></p>
+      <button class="btn-continue" data-back>Back to the boxes</button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: BOX 3 — ROAST OR TOAST -->
+  <!-- ============================================================ -->
+  <section id="screen-box3" class="screen">
+    <button class="btn-back" data-back>&larr; back</button>
+
+    <div id="box3-game" class="box-stage">
+      <h2 class="section-title" id="box3-title"></h2>
+      <p class="section-sub" id="box3-instructions"></p>
+
+      <svg class="machine-svg" viewBox="0 0 240 220" role="img" aria-hidden="true">
+        <rect x="50" y="40" width="140" height="150" rx="16" class="machine-body"/>
+        <rect id="machine-screen" x="70" y="60" width="100" height="50" rx="8" class="machine-screen"/>
+        <circle cx="80" cy="130" r="6" class="machine-light"/>
+        <circle cx="100" cy="130" r="6" class="machine-light"/>
+        <circle cx="120" cy="130" r="6" class="machine-light"/>
+        <circle cx="205" cy="150" r="9" class="chest-metal-dark"/>
+        <g id="lever-arm-group" style="transform-origin:204px 118px;">
+          <rect x="200" y="120" width="8" height="34" rx="4" class="machine-lever"/>
+          <circle cx="204" cy="118" r="10" class="chest-metal-dark"/>
+        </g>
+      </svg>
+
+      <div id="roast-bubble" class="roast-bubble"></div>
+
+      <button id="lever-btn" class="btn-primary"></button>
+    </div>
+
+    <div id="box3-reveal" class="box-reveal hidden">
+      <p id="box3-typewriter" class="typewriter-text"></p>
+      <button class="btn-continue" data-back>Back to the boxes</button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCREEN: FINALE -->
+  <!-- ============================================================ -->
+  <section id="screen-finale" class="screen">
+    <div class="finale-content">
+      <div class="finale-icons" aria-hidden="true">
+        <span class="finale-icon">&#127873;</span>
+        <span class="finale-icon">&#127881;</span>
+        <span class="finale-icon">&#127880;</span>
+      </div>
+      <h2 class="finale-heading" id="finale-heading"></h2>
+      <h1 class="finale-name" id="finale-name"></h1>
+      <p class="finale-note" id="finale-note"></p>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+<script src="js/content.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/box1-chest.js"></script>
+<script src="js/box2-jokerbox.js"></script>
+<script src="js/box3-roast.js"></script>
+<script src="js/finale.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
