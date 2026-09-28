@@ -132,23 +132,21 @@
         <span class="sparkle sparkle-b">&#10022;</span>
       </button>
 
-      <button class="box-card box-card-3" data-box="3" aria-label="Try the roast or toast machine">
+      <button class="box-card box-card-3" data-box="3" aria-label="Open the diary">
         <span class="box-check" aria-hidden="true">&#10003;</span>
         <div class="ticket-top">
           <span class="ticket-index">No. 03</span>
           <span class="box-icon-badge">
             <svg class="box-icon" viewBox="0 0 48 48" role="img" aria-hidden="true">
-              <rect x="6" y="10" width="26" height="28" class="icon-stroke"/>
-              <polyline points="10,26 15,26 18,18 22,32 26,26 28,26" class="icon-stroke-line"/>
-              <rect x="34" y="24" width="4" height="14" class="icon-stroke-fill"/>
-              <circle cx="36" cy="22" r="4" class="icon-stroke"/>
+              <path d="M24 14 C20 10.5 12 10.5 7 12.5 V36.5 C12 34.5 20 34.5 24 38 C28 34.5 36 34.5 41 36.5 V12.5 C36 10.5 28 10.5 24 14 Z" class="icon-stroke"/>
+              <line x1="24" y1="14" x2="24" y2="38" class="icon-stroke-line"/>
             </svg>
           </span>
         </div>
         <div class="ticket-divider" aria-hidden="true"></div>
         <div class="ticket-bottom">
-          <span class="box-label">Roast or Toast</span>
-          <span class="box-desc">Pull the lever. Repeatedly.</span>
+          <span class="box-label">The Diary</span>
+          <span class="box-desc">Two pages at a time. Tap to open.</span>
         </div>
         <span class="sparkle sparkle-a">&#10022;</span>
         <span class="sparkle sparkle-b">&#10022;</span>
@@ -201,6 +199,7 @@
          real one after the popup below -->
     <div id="box1-reveal" class="box-reveal hidden">
       <img id="box1-reveal-image" class="reveal-image-big" src="assets/images/lizardGift.jpg" alt="" />
+      <button id="box1-home-btn" class="btn-continue hidden" data-back>Back to the gifts</button>
     </div>
 
     <div id="box1-swap-popup" class="swap-popup hidden">
@@ -220,25 +219,24 @@
       <h2 class="section-title small"><span id="box2-title"></span></h2>
       <p class="section-sub" id="box2-instructions"></p>
 
-      <div id="crank-target" class="crank-target">
+      <div id="crank-target" class="crank-target" aria-hidden="true">
         <svg class="joker-svg" viewBox="0 0 240 200" role="img" aria-hidden="true">
-          <g id="joker-figure" class="joker-figure">
-            <path d="M105 130 L108 100 L112 130 L116 100 L120 130 L124 100 L128 130 L132 100 L135 130" class="joker-spring"/>
-            <ellipse cx="120" cy="78" rx="24" ry="26" class="joker-face"/>
-            <circle cx="112" cy="74" r="4" class="joker-eye"/>
-            <circle cx="128" cy="74" r="4" class="joker-eye"/>
-            <path d="M108 88 Q120 100 132 88" class="joker-grin"/>
-            <polygon points="96,54 144,54 120,14" class="joker-hat"/>
-            <circle cx="120" cy="14" r="6" class="joker-hat-pom"/>
-            <circle cx="96" cy="54" r="6" class="joker-hat-pom"/>
-            <circle cx="144" cy="54" r="6" class="joker-hat-pom"/>
-          </g>
-          <rect x="50" y="110" width="140" height="70" rx="10" class="joker-box"/>
-          <rect id="joker-lid" x="50" y="90" width="140" height="25" rx="8" class="joker-box-dark"/>
-          <circle cx="210" cy="145" r="10" class="chest-metal-dark"/>
+          <ellipse cx="115" cy="182" rx="78" ry="8" class="chest-shadow"/>
+
+          <!-- box body, ribbon strap + bow to match the present box's style -->
+          <rect x="40" y="112" width="150" height="70" rx="14" class="joker-box"/>
+          <rect x="98" y="112" width="26" height="70" class="chest-metal"/>
+          <rect id="joker-lid" x="34" y="90" width="162" height="26" rx="11" class="joker-box-dark"/>
+          <rect x="98" y="90" width="26" height="26" class="chest-metal"/>
+          <circle cx="111" cy="103" r="9" class="chest-metal-dark"/>
+
+          <!-- crank: a mounted gear plate with a handle that spins in place -->
+          <circle cx="207" cy="150" r="17" class="crank-plate"/>
+          <circle cx="207" cy="150" r="17" class="crank-plate-ring"/>
           <g id="crank-handle" class="crank-handle">
-            <rect x="208" y="112" width="4" height="34" class="chest-metal"/>
-            <circle cx="210" cy="110" r="9" class="chest-metal-dark"/>
+            <rect x="204" y="120" width="6" height="30" rx="3" class="chest-metal"/>
+            <circle cx="207" cy="118" r="10" class="chest-metal-dark"/>
+            <circle cx="207" cy="118" r="4" class="chest-gem"/>
           </g>
         </svg>
       </div>
@@ -246,18 +244,25 @@
       <div class="progress-track" aria-hidden="true">
         <div id="box2-progress-fill" class="progress-fill"></div>
       </div>
-      <p id="box2-progress-label" class="progress-label"></p>
       <audio id="box2-audio" preload="none"></audio>
+      <audio id="box2-wind-audio" preload="none" loop></audio>
     </div>
 
     <div id="box2-reveal" class="box-reveal hidden">
       <p id="box2-caption" class="reveal-caption"></p>
       <button class="btn-continue" data-back>Back to the gifts</button>
     </div>
+
+    <!-- plays right here on this same screen, at a modest size — no
+         controls, can't be skipped or paused, only goes away once it ends -->
+    <div id="box2-video-wrap" class="mini-video-wrap hidden">
+      <video id="box2-video" class="mini-video" playsinline oncontextmenu="return false"></video>
+      <p class="tap-hint">&#9654; tap to play</p>
+    </div>
   </section>
 
   <!-- ============================================================ -->
-  <!-- SCREEN: BOX 3 — ROAST OR TOAST -->
+  <!-- SCREEN: BOX 3 — THE DIARY -->
   <!-- ============================================================ -->
   <section id="screen-box3" class="screen">
     <button class="btn-back" data-back>&larr; back to the gifts</button>
@@ -266,26 +271,41 @@
       <h2 class="section-title small"><span id="box3-title"></span></h2>
       <p class="section-sub" id="box3-instructions"></p>
 
-      <svg class="machine-svg" viewBox="0 0 240 220" role="img" aria-hidden="true">
-        <rect x="50" y="40" width="140" height="150" rx="16" class="machine-body"/>
-        <rect id="machine-screen" x="70" y="60" width="100" height="50" rx="8" class="machine-screen"/>
-        <circle cx="80" cy="130" r="6" class="machine-light"/>
-        <circle cx="100" cy="130" r="6" class="machine-light"/>
-        <circle cx="120" cy="130" r="6" class="machine-light"/>
-        <circle cx="205" cy="150" r="9" class="chest-metal-dark"/>
-        <g id="lever-arm-group" style="transform-origin:204px 118px;">
-          <rect x="200" y="120" width="8" height="34" rx="4" class="machine-lever"/>
-          <circle cx="204" cy="118" r="10" class="chest-metal-dark"/>
-        </g>
-      </svg>
+      <div class="diary-scene">
+        <button id="diary-cover" class="diary-cover" aria-label="Open the diary">
+          <span class="diary-cover-ribbon" aria-hidden="true"></span>
+          <span class="diary-cover-title">A Little<br/>Memories Freshup</span>
+          <span class="diary-cover-hint">tap to open</span>
+        </button>
 
-      <div id="roast-bubble" class="roast-bubble"></div>
+        <div id="diary-book" class="diary-book hidden">
+          <button id="diary-prev" class="diary-arrow diary-arrow-prev is-disabled" aria-label="Previous page">&#10094;</button>
 
-      <button id="lever-btn" class="btn-primary"></button>
+          <div class="diary-spread" id="diary-spread">
+            <div class="diary-page diary-page-left" id="diary-page-left"></div>
+            <div class="diary-spine" id="diary-spine" aria-hidden="true"></div>
+            <div class="diary-page diary-page-right" id="diary-page-right"></div>
+
+            <!-- flipping leaves: one for forward flips (hinges on the
+                 left/spine edge), one for backward flips (hinges on the
+                 right/spine edge) — positioned exactly over the page slot
+                 they're leaving, so the flip reads as continuous -->
+            <div id="diary-leaf-fwd" class="diary-leaf diary-leaf-fwd" aria-hidden="true">
+              <div class="diary-leaf-face leaf-front" id="leaf-fwd-front"></div>
+              <div class="diary-leaf-face leaf-back" id="leaf-fwd-back"></div>
+            </div>
+            <div id="diary-leaf-rev" class="diary-leaf diary-leaf-rev" aria-hidden="true">
+              <div class="diary-leaf-face leaf-front" id="leaf-rev-front"></div>
+              <div class="diary-leaf-face leaf-back" id="leaf-rev-back"></div>
+            </div>
+          </div>
+
+          <button id="diary-next" class="diary-arrow diary-arrow-next" aria-label="Next page">&#10095;</button>
+        </div>
+      </div>
     </div>
 
     <div id="box3-reveal" class="box-reveal hidden">
-      <p id="box3-typewriter" class="typewriter-text"></p>
       <button class="btn-continue" data-back>Back to the gifts</button>
     </div>
   </section>
@@ -294,18 +314,12 @@
   <!-- SCREEN: FINALE -->
   <!-- ============================================================ -->
   <section id="screen-finale" class="screen">
-    <div class="finale-content">
-      <div class="finale-stamp" aria-hidden="true">
-        <span>You Did<br/>It! &#10024;</span>
-      </div>
-      <div class="finale-icons" aria-hidden="true">
-        <span class="finale-icon">&#127873;</span>
-        <span class="finale-icon">&#127881;</span>
-        <span class="finale-icon">&#127880;</span>
-      </div>
-      <h2 class="finale-heading" id="finale-heading"></h2>
-      <h1 class="finale-name" id="finale-name"></h1>
-      <p class="finale-note" id="finale-note"></p>
+    <div class="letter-card">
+      <span class="letter-seal" aria-hidden="true">&#128140;</span>
+      <p class="letter-eyebrow" id="finale-eyebrow"></p>
+      <p class="letter-greeting" id="finale-greeting"></p>
+      <p class="letter-body" id="finale-letter"></p>
+      <p class="letter-signature" id="finale-signature"></p>
     </div>
   </section>
 
@@ -316,7 +330,7 @@
 <script src="js/utils.js"></script>
 <script src="js/box1-chest.js"></script>
 <script src="js/box2-jokerbox.js"></script>
-<script src="js/box3-roast.js"></script>
+<script src="js/box3-diary.js"></script>
 <script src="js/finale.js"></script>
 <script src="js/main.js"></script>
 </body>

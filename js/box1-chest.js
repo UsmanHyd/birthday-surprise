@@ -8,6 +8,7 @@ function initBox1({ onComplete }) {
   const revealImage = document.getElementById("box1-reveal-image");
   const swapPopup = document.getElementById("box1-swap-popup");
   const swapText = document.getElementById("box1-swap-text");
+  const homeBtn = document.getElementById("box1-home-btn");
 
   document.getElementById("box1-title").textContent = CONFIG.box1.title;
   document.getElementById("box1-instructions").textContent = CONFIG.box1.instructions;
@@ -63,6 +64,7 @@ function initBox1({ onComplete }) {
       setTimeout(() => {
         revealImage.src = CONFIG.box1.realImageSrc;
         revealImage.classList.remove("swapping");
+        homeBtn.classList.remove("hidden");
       }, 200);
     }, 3400));
 
@@ -114,6 +116,7 @@ function initBox1({ onComplete }) {
     swapPopup.classList.add("hidden");
     swapPopup.classList.remove("visible");
     revealImage.src = CONFIG.box1.jokeImageSrc;
+    homeBtn.classList.add("hidden");
   }
 
   return { reset };

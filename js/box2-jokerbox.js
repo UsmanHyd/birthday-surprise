@@ -1,127 +1,123 @@
-const HUB = { x: 210, y: 145 }; // crank hub center, in the SVG's own viewBox units
-
 function initBox2({ onComplete }) {
   const wrap = document.getElementById("crank-target");
-  const svg = wrap.querySelector(".joker-svg");
   const handle = document.getElementById("crank-handle");
   const lid = document.getElementById("joker-lid");
-  const figure = document.getElementById("joker-figure");
   const fill = document.getElementById("box2-progress-fill");
-  const label = document.getElementById("box2-progress-label");
-  const instructions = document.getElementById("box2-instructions");
-  const progressTrack = wrap.parentElement.querySelector(".progress-track");
   const revealEl = document.getElementById("box2-reveal");
   const gameEl = document.getElementById("box2-game");
   const captionEl = document.getElementById("box2-caption");
   const audio = document.getElementById("box2-audio");
+  const windAudio = document.getElementById("box2-wind-audio");
+  const videoWrap = document.getElementById("box2-video-wrap");
+  const video = document.getElementById("box2-video");
 
   document.getElementById("box2-title").textContent = CONFIG.box2.title;
-  instructions.textContent = CONFIG.box2.instructions;
+  document.getElementById("box2-instructions").textContent = CONFIG.box2.instructions;
   captionEl.textContent = CONFIG.box2.revealCaption;
   audio.src = CONFIG.box2.audioSrc;
+  windAudio.src = CONFIG.box2.windAudioSrc;
+  video.src = CONFIG.box2.videoSrc;
 
-  const turnsNeeded = CONFIG.box2.turnsNeeded;
-  const degreesNeeded = turnsNeeded * 360;
-
-  let totalDegrees = 0;
-  let visualAngle = 0;
-  let dragging = false;
-  let lastAngle = null;
+  const windMs = CONFIG.box2.windMs || 3000;
+  let started = false;
   let done = false;
+  let autoStartTimer = null;
+  let windTimer = null;
+  let popTimer = null;
 
-  function localPoint(clientX, clientY) {
-    const rect = svg.getBoundingClientRect();
-    const vb = svg.viewBox.baseVal;
-    const scaleX = vb.width / rect.width;
-    const scaleY = vb.height / rect.height;
-    return {
-      x: (clientX - rect.left) * scaleX + vb.x,
-      y: (clientY - rect.top) * scaleY + vb.y,
-    };
-  }
+  // fully automatic wind-up: the handle spins two full turns on its own
+  // over `windMs`, the fill bar tracks the same duration, then the lid
+  // pops open and the video emerges from the box — no tap needed
+  function startWind() {
+    if (started || done) return;
+    started = true;
+    wrap.classList.add("winding");
 
-  function angleAt(clientX, clientY) {
-    const p = localPoint(clientX, clientY);
-    return (Math.atan2(p.y - HUB.y, p.x - HUB.x) * 180) / Math.PI;
-  }
+    windAudio.currentTime = 0;
+    windAudio.play().catch(() => {});
 
-  function updateUI() {
-    const pct = Math.min(100, (totalDegrees / degreesNeeded) * 100);
-    fill.style.width = pct + "%";
-    const turns = Math.min(turnsNeeded, totalDegrees / 360);
-    label.textContent = `${turns.toFixed(1)} / ${turnsNeeded} turns`;
-  }
+    handle.style.transition = `transform ${windMs}ms cubic-bezier(0.45, 0, 0.2, 1)`;
+    void handle.offsetWidth; // force reflow so the transition starts from 0deg
+    handle.style.transform = "rotate(720deg)";
 
-  function onPointerDown(e) {
-    if (done) return;
-    dragging = true;
-    lastAngle = angleAt(e.clientX, e.clientY);
-    wrap.setPointerCapture(e.pointerId);
-  }
+    fill.style.transition = `width ${windMs}ms linear`;
+    void fill.offsetWidth; // force reflow so the transition starts from 0%
+    fill.style.width = "100%";
 
-  function onPointerMove(e) {
-    if (!dragging || done) return;
-    const angle = angleAt(e.clientX, e.clientY);
-    let delta = angle - lastAngle;
-    if (delta > 180) delta -= 360;
-    if (delta < -180) delta += 360;
-    lastAngle = angle;
-
-    totalDegrees += Math.abs(delta);
-    visualAngle += delta;
-    handle.style.transform = `rotate(${visualAngle}deg)`;
-    updateUI();
-
-    if (totalDegrees >= degreesNeeded) {
+    windTimer = setTimeout(() => {
       done = true;
+      windAudio.pause();
       triggerPop();
-    }
-  }
-
-  function onPointerUp(e) {
-    dragging = false;
-    if (wrap.hasPointerCapture && wrap.hasPointerCapture(e.pointerId)) {
-      wrap.releasePointerCapture(e.pointerId);
-    }
+    }, windMs);
   }
 
   function triggerPop() {
+    wrap.classList.remove("winding");
     lid.classList.add("open");
-    figure.classList.add("popped");
-    instructions.classList.add("hidden");
-    if (progressTrack) progressTrack.classList.add("hidden");
-    label.classList.add("hidden");
     audio.currentTime = 0;
     audio.play().catch(() => {});
-    setTimeout(() => {
-      revealEl.classList.remove("hidden");
-      burstConfetti();
-      if (onComplete) onComplete();
-    }, 550);
+
+    // gives the lid a beat to visibly swing open before the video
+    // springs out of the box in its place
+    popTimer = setTimeout(() => {
+      gameEl.classList.add("hidden");
+      playVideo();
+    }, 450);
   }
 
-  wrap.addEventListener("pointerdown", onPointerDown);
-  wrap.addEventListener("pointermove", onPointerMove);
-  wrap.addEventListener("pointerup", onPointerUp);
-  wrap.addEventListener("pointercancel", onPointerUp);
+  function playVideo() {
+    videoWrap.classList.remove("hidden");
+    videoWrap.classList.remove("needs-tap");
+    video.currentTime = 0;
+    const playPromise = video.play();
+    if (playPromise && playPromise.catch) {
+      // autoplay can be blocked by the browser — fall back to a one-time
+      // tap-to-start prompt; once it's playing there is still no
+      // pause/skip control
+      playPromise.catch(() => videoWrap.classList.add("needs-tap"));
+    }
+  }
 
-  updateUI();
+  function onVideoEnded() {
+    videoWrap.classList.add("hidden");
+    videoWrap.classList.remove("needs-tap");
+    revealEl.classList.remove("hidden");
+    burstConfetti();
+    if (onComplete) onComplete();
+  }
+
+  video.addEventListener("ended", onVideoEnded);
+  videoWrap.addEventListener("click", () => {
+    if (videoWrap.classList.contains("needs-tap")) {
+      videoWrap.classList.remove("needs-tap");
+      video.play().catch(() => {});
+    }
+  });
 
   function reset() {
+    started = false;
     done = false;
-    dragging = false;
-    totalDegrees = 0;
-    visualAngle = 0;
+    clearTimeout(autoStartTimer);
+    clearTimeout(windTimer);
+    clearTimeout(popTimer);
+    wrap.classList.remove("winding");
+    handle.style.transition = "none";
     handle.style.transform = "rotate(0deg)";
+    fill.style.transition = "none";
+    fill.style.width = "0%";
     lid.classList.remove("open");
-    figure.classList.remove("popped");
-    instructions.classList.remove("hidden");
-    if (progressTrack) progressTrack.classList.remove("hidden");
-    label.classList.remove("hidden");
-    audio.pause();
     gameEl.classList.remove("hidden");
     revealEl.classList.add("hidden");
-    updateUI();
+    videoWrap.classList.add("hidden");
+    videoWrap.classList.remove("needs-tap");
+    windAudio.pause();
+    video.pause();
+    video.currentTime = 0;
+
+    // small delay so this fires after the screen is actually shown
+    // (reset() runs just before showScreen()) — otherwise the wind-up
+    // transition would be set while still display:none and never animate
+    autoStartTimer = setTimeout(startWind, 150);
   }
 
   return { reset };

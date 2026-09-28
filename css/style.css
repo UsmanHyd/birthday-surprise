@@ -27,13 +27,8 @@
   --joker-face: #fff3e6;
   --joker-hat: var(--pink);
 
-  --char-body: var(--purple-light);
-  --char-head: #ffd9b0;
-  --lizard: #8fe0a0;
-
-  --machine-body: var(--pink-light);
-  --machine-screen: var(--white);
-  --machine-lever: var(--purple);
+  --paper: #fffaf0;
+  --paper-shade: #f7ecd8;
 
   --font-display: "Baloo 2", system-ui, sans-serif;
   --font-hand: "Pacifico", cursive;
@@ -611,18 +606,18 @@ button {
   font-weight: 700;
   max-width: 26rem;
 }
-.reveal-svg { width: clamp(150px, 38vw, 210px); animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both; filter: drop-shadow(0 10px 18px rgba(177, 92, 255, 0.25)); }
-.reveal-image {
-  width: clamp(180px, 55vw, 280px);
-  border-radius: 20px;
-  box-shadow: 0 16px 34px rgba(177, 92, 255, 0.3);
-  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
+/* kept in the DOM for the game script to update, just not shown — the
+   video reveal speaks for itself, no caption needed under it */
+#box2-caption { display: none; }
 /* box1's reveal lives directly on the page (not inside a card), nice and
    large, with the image itself the only thing on screen */
 #box1-reveal {
   max-width: 44rem;
+}
+/* the diary is wider than the shared .box-stage cap, so it needs its own
+   allowance or the bigger page size below gets clipped back down */
+#box3-game {
+  max-width: 60rem;
 }
 .reveal-image-big {
   display: block;
@@ -664,16 +659,6 @@ button {
   from { opacity: 0; transform: scale(0.5) translateY(20px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
-.reveal-shadow { fill: rgba(91, 42, 99, 0.12); }
-.char-body { fill: var(--char-body); }
-.char-head { fill: var(--char-head); }
-.char-eye { fill: var(--text-dark); }
-.char-smile { fill: none; stroke: var(--text-dark); stroke-width: 3; stroke-linecap: round; }
-.party-hat { fill: var(--purple); }
-.party-hat-pom { fill: var(--gold); }
-.lizard-body { fill: var(--lizard); }
-.lizard-eye { fill: var(--text-dark); }
-.lizard-tail { fill: none; stroke: var(--lizard); stroke-width: 6; stroke-linecap: round; }
 
 /* ==========================================================
    BOX 1 — THE PRESENT
@@ -764,138 +749,380 @@ button {
    BOX 2 — THE POP-UP BOX
    ========================================================== */
 .joker-svg { width: clamp(190px, 42vw, 270px); overflow: visible; filter: drop-shadow(0 14px 22px rgba(139, 63, 224, 0.25)); }
-.crank-target { touch-action: none; cursor: grab; }
-.crank-target:active { cursor: grabbing; }
+.crank-target.winding .joker-svg { animation: crankWobble 0.14s ease-in-out infinite; }
+@keyframes crankWobble {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(1.5px) rotate(0.6deg); }
+}
 .joker-box { fill: var(--joker-box); }
 .joker-box-dark { fill: var(--joker-box-dark); }
-#crank-handle { transform-origin: 210px 145px; }
-
-.joker-figure {
-  transform-origin: 120px 180px;
-  transform: translateY(46px) scale(0.6);
-  opacity: 0;
-}
-.joker-figure.popped {
-  animation: jokerPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-@keyframes jokerPop {
-  0% { transform: translateY(46px) scale(0.6); opacity: 0; }
-  60% { transform: translateY(-14px) scale(1.08); opacity: 1; }
-  80% { transform: translateY(4px) scale(0.98); }
-  100% { transform: translateY(0) scale(1); opacity: 1; }
-}
-.joker-spring { fill: none; stroke: var(--purple-deep); stroke-width: 4; stroke-linecap: round; }
-.joker-face { fill: var(--joker-face); }
-.joker-eye { fill: var(--text-dark); }
-.joker-grin { fill: none; stroke: var(--text-dark); stroke-width: 3; stroke-linecap: round; }
-.joker-hat { fill: var(--joker-hat); }
-.joker-hat-pom { fill: var(--gold); }
+.crank-plate { fill: var(--chest-metal-dark); }
+.crank-plate-ring { fill: none; stroke: var(--white); stroke-width: 2; opacity: 0.5; }
+#crank-handle { transform-origin: 207px 150px; }
 
 #joker-lid.open { animation: lidOpen 0.4s ease forwards; }
 @keyframes lidOpen {
   to { transform: translate(-6px, -30px) rotate(-25deg); }
 }
 
-/* ==========================================================
-   BOX 3 — ROAST OR TOAST
-   ========================================================== */
-.machine-svg { width: clamp(170px, 36vw, 230px); filter: drop-shadow(0 14px 22px rgba(255, 79, 163, 0.25)); }
-.machine-body { fill: var(--machine-body); }
-.machine-screen { fill: var(--machine-screen); transition: fill 0.5s ease; }
-.machine-screen.warm { fill: var(--gold); }
-.machine-light { fill: var(--purple); opacity: 0.55; }
-.machine-lever { fill: var(--machine-lever); }
-
-#lever-arm-group { transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1); }
-#lever-arm-group.pulled { transform: rotate(45deg); }
-
-.roast-bubble {
-  min-height: 3rem;
-  max-width: 25rem;
-  font-weight: 700;
-  font-size: 1rem;
-  background: #fff2f8;
-  border-radius: 20px;
-  padding: 0.85rem 1.15rem;
-  box-shadow: 0 8px 20px rgba(177, 92, 255, 0.18);
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.roast-bubble.visible { opacity: 1; transform: scale(1); }
-
-.typewriter-text {
-  font-size: clamp(1.05rem, 3.2vw, 1.3rem);
-  font-weight: 700;
-  max-width: 28rem;
-  white-space: pre-wrap;
-  line-height: 1.6;
-  min-height: 6rem;
-}
-.typewriter-text::after {
-  content: "|";
-  color: var(--pink);
-  animation: caretBlink 0.9s step-end infinite;
-}
-.typewriter-text.done::after { display: none; }
-@keyframes caretBlink {
-  50% { opacity: 0; }
-}
-
-/* ==========================================================
-   FINALE
-   ========================================================== */
-.finale-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  max-width: 32rem;
-}
-.finale-stamp {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: var(--white);
+/* plays inline on the same screen, at a modest "mini" size — no controls,
+   can't be skipped or paused, only goes away once the video ends */
+.mini-video-wrap {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  transform-origin: 50% 100%;
+  animation: videoPopOut 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+/* springs up out of the box, growing from a small starting point near
+   where the lid just opened, with the same overshoot bounce as the rest
+   of the site's "pop" moments */
+@keyframes videoPopOut {
+  0%   { transform: translateY(70px) scale(0.1); opacity: 0; }
+  55%  { transform: translateY(-12px) scale(1.06); opacity: 1; }
+  75%  { transform: translateY(4px) scale(0.97); }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.mini-video {
+  width: min(78vw, 340px);
+  border-radius: 22px;
+  box-shadow: 0 18px 40px rgba(177, 92, 255, 0.35);
+  pointer-events: none;
+  background: #05020a;
+}
+.tap-hint {
+  display: none;
+  position: absolute;
+  bottom: -0.75rem;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  animation: bannerPulse 1.6s ease-in-out infinite;
+  white-space: nowrap;
+}
+.mini-video-wrap.needs-tap .tap-hint { display: block; }
+
+/* ==========================================================
+   BOX 3 — THE DIARY
+   ========================================================== */
+.diary-scene {
+  position: relative;
+  perspective: 1800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(90vw, 500px);
+}
+
+/* ---- closed cover ---- */
+.diary-cover {
+  position: relative;
+  width: min(80vw, 380px);
+  height: min(108vw, 505px);
+  border-radius: 6px 14px 14px 6px;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  box-shadow: 0 20px 44px rgba(139, 63, 224, 0.4), inset -6px 0 0 rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease;
+}
+.diary-cover:hover { transform: scale(1.03); }
+.diary-cover.opening { animation: coverOpen 0.65s ease-in forwards; }
+@keyframes coverOpen {
+  to { transform: rotateY(-140deg); opacity: 0.4; }
+}
+.diary-cover-ribbon {
+  position: absolute;
+  top: 0;
+  right: 22%;
+  width: 14px;
+  height: 46px;
+  background: var(--gold);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+}
+.diary-cover-title {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  line-height: 1.2;
+  color: var(--white);
   text-align: center;
+}
+.diary-cover-hint {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---- open book ---- */
+.diary-book {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+/* closing: the last right page folds shut over the left page around the
+   spine (the exact same .flipped motion as every other page turn), then
+   once it's sitting there looking like a closed book, the whole thing
+   fades away */
+.diary-book.closing-fade {
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  opacity: 0;
+  transform: scale(0.85);
+}
+.diary-leaf-face.is-cover-back {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25), inset -6px 0 0 rgba(0, 0, 0, 0.12);
+}
+.diary-leaf-face.is-cover-back .diary-cover-ribbon { top: 0; }
+.diary-leaf-face.is-cover-back .diary-cover-title {
+  font-size: 1.25rem;
+}
+
+.diary-spread {
+  /* fits any viewport: (100vw - screen padding - 2 arrows - 2 gaps - spine)
+     split across the two pages, capped so it doesn't get silly-huge on
+     large monitors. This is deliberately a formula, not a fixed size, so
+     the arrows can never get pushed off-screen again. */
+  --diary-page-w: min(calc(50vw - 90px), 360px);
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 20px 40px rgba(91, 42, 99, 0.3));
+}
+/* once closed, the right page + spine are invisible but the layout still
+   reserves their space (so the flip's own left:50% math stays correct
+   throughout the animation) — this nudges the now-lopsided spread right,
+   just enough that the surviving left/cover page lands on true center */
+.diary-spread.is-closed-centered {
+  transition: transform 0.3s ease;
+  transform: translateX(calc(var(--diary-page-w) / 2 + 4px));
+}
+.diary-page, .diary-leaf {
+  width: var(--diary-page-w);
+  height: calc(var(--diary-page-w) * 4 / 3);
+}
+.diary-page {
+  background: var(--paper);
+  overflow-y: auto;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.diary-page-left { border-radius: 12px 0 0 12px; box-shadow: inset -8px 0 14px -12px rgba(0, 0, 0, 0.35); }
+.diary-page-right { border-radius: 0 12px 12px 0; box-shadow: inset 8px 0 14px -12px rgba(0, 0, 0, 0.35); }
+.diary-spine {
+  width: 8px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.02) 45%, rgba(0, 0, 0, 0.02) 55%, rgba(0, 0, 0, 0.18));
+}
+
+.diary-media {
+  display: block;
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 8px;
+  background: var(--paper-shade);
+  flex-shrink: 0;
+}
+.diary-text {
   font-family: var(--font-hand);
   font-size: 1.25rem;
+  line-height: 1.32;
+  color: var(--text-dark);
+  overflow-y: auto;
+}
+
+/* click-to-play video page: thumbnail + a big obvious play button,
+   nothing plays until it's tapped */
+.diary-video-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 60%;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+}
+.diary-video-wrap video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.diary-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s ease;
+}
+/* a CSS-drawn triangle instead of a text glyph — renders identically
+   everywhere instead of depending on the browser/font's own play icon */
+.diary-play-btn::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin-left: 4px;
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent var(--pink-deep);
+}
+.diary-video-wrap:hover .diary-play-btn { transform: translate(-50%, -50%) scale(1.08); }
+.diary-video-wrap.is-playing { cursor: default; }
+.diary-video-wrap.is-playing .diary-play-btn { display: none; }
+
+.diary-leaf {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+.diary-leaf.active { opacity: 1; }
+.diary-leaf-fwd {
+  left: 50%;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+}
+.diary-leaf-fwd.flipped {
+  transition: transform 0.85s cubic-bezier(0.45, 0, 0.2, 1);
+  transform: rotateY(-180deg);
+}
+.diary-leaf-rev {
+  right: 50%;
+  transform-origin: right center;
+  transform: rotateY(0deg);
+}
+.diary-leaf-rev.flipped {
+  transition: transform 0.85s cubic-bezier(0.45, 0, 0.2, 1);
+  transform: rotateY(180deg);
+}
+.diary-leaf-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  background: var(--paper);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.diary-leaf-fwd .leaf-front { border-radius: 0 12px 12px 0; }
+.diary-leaf-fwd .leaf-back { border-radius: 12px 0 0 12px; transform: rotateY(180deg); }
+.diary-leaf-rev .leaf-front { border-radius: 12px 0 0 12px; }
+.diary-leaf-rev .leaf-back { border-radius: 0 12px 12px 0; transform: rotateY(180deg); }
+
+.diary-arrow {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--white);
   color: var(--pink-deep);
-  box-shadow: 0 18px 40px rgba(177, 92, 255, 0.3);
-  transform: rotate(-6deg);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 22px rgba(177, 92, 255, 0.3);
+  transition: transform 0.15s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+.diary-arrow:hover { transform: scale(1.08); }
+.diary-arrow:active { transform: scale(0.95); }
+.diary-arrow.is-disabled { visibility: hidden; pointer-events: none; }
+.diary-arrow-next.is-final {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: var(--white);
+}
+
+@media (max-width: 460px) {
+  .diary-book { gap: 0.4rem; }
+  .diary-spread { --diary-page-w: min(calc(50vw - 75px), 145px); }
+  .diary-page, .diary-leaf { padding: 0.7rem; }
+  .diary-arrow { width: 42px; height: 42px; font-size: 1rem; }
+  .diary-text { font-size: 1rem; }
+}
+
+/* ==========================================================
+   FINALE — THE LETTER
+   ========================================================== */
+.letter-card {
+  max-width: 30rem;
+  width: 100%;
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(177, 92, 255, 0.3);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.letter-seal {
+  font-size: 2.6rem;
+  align-self: center;
   animation: medallionWobble 5s ease-in-out infinite;
 }
-.finale-icons { font-size: 2.3rem; display: flex; gap: 1rem; }
-.finale-icon {
-  display: inline-block;
-  animation: finaleBounce 1.6s ease-in-out infinite;
+.letter-eyebrow {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple-deep);
+  opacity: 0.65;
 }
-.finale-icon:nth-child(2) { animation-delay: 0.2s; }
-.finale-icon:nth-child(3) { animation-delay: 0.4s; }
-@keyframes finaleBounce {
-  0%, 100% { transform: translateY(0) rotate(0); }
-  50% { transform: translateY(-14px) rotate(-8deg); }
+.letter-greeting {
+  font-family: var(--font-hand);
+  font-size: 2rem;
+  color: var(--pink-deep);
 }
-.finale-heading {
-  font-size: clamp(1.15rem, 3.4vw, 1.55rem);
-  color: var(--text-dark);
-  opacity: 0.85;
-}
-.finale-name {
-  font-size: clamp(2.3rem, 8.5vw, 3.8rem);
-  background: linear-gradient(135deg, var(--pink-deep), var(--purple-deep), var(--gold-deep));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.finale-note {
+.letter-body {
   font-size: 1.05rem;
+  line-height: 1.75;
   color: var(--text-dark);
-  opacity: 0.85;
   white-space: pre-wrap;
+  text-align: left;
+}
+.letter-signature {
+  font-family: var(--font-hand);
+  font-size: 1.6rem;
+  color: var(--purple-deep);
+  text-align: right;
 }
 
 /* ==========================================================

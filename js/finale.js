@@ -1,7 +1,8 @@
 function initFinale() {
-  document.getElementById("finale-heading").textContent = CONFIG.finale.heading;
-  document.getElementById("finale-name").textContent = CONFIG.herName;
-  document.getElementById("finale-note").textContent = CONFIG.finale.closingNote;
+  document.getElementById("finale-eyebrow").textContent = CONFIG.finale.eyebrow;
+  document.getElementById("finale-greeting").textContent = CONFIG.finale.greeting;
+  document.getElementById("finale-letter").textContent = CONFIG.finale.letter;
+  document.getElementById("finale-signature").textContent = CONFIG.finale.signature;
 }
 
 function playFinale() {

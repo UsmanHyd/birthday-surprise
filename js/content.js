@@ -50,37 +50,48 @@ const CONFIG = {
 
   box2: {
     title: "The Pop-Up Box",
-    instructions: "Turn the crank. Keep turning. You'll regret it.",
-    turnsNeeded: 3,
-    // TODO: put the real audio file at this exact path (see assets/audio/README.txt)
+    instructions: "Sit tight — it winds itself up.",
+    // how long the automatic wind-up (2 full turns) takes once this
+    // screen opens, before the lid pops
+    windMs: 3000,
+    // TODO: put the real "pop" sound at this exact path (see assets/audio/README.txt)
     audioSrc: "assets/audio/happy-birthday-scream.mp3",
-    // TODO: caption shown under the joker when it pops out
+    // TODO: put a winding/ratchet sound effect at this exact path — it loops
+    // for the ~3s wind-up and stops the moment the lid pops (see assets/audio/README.txt)
+    windAudioSrc: "assets/audio/spindle-winding.mp3",
+    // plays inline on this screen once the lid pops; can't be skipped or paused
+    videoSrc: "assets/birthdayVideo.mp4",
+    // TODO: caption shown once the video finishes
     revealCaption: "TODO: replace with a funny caption for the pop-up reveal",
   },
 
   box3: {
-    title: "Roast or Toast",
-    instructions: "Pull the lever. Repeatedly. You've been warned.",
-    // TODO: replace these with real inside-joke roasts about her.
-    // They're shown one per lever-pull, in this exact order, so you
-    // can build up a deliberate comedic sequence.
-    roastLines: [
-      "You've rewatched the same show four times and still cry at the same part.",
-      "You have a favorite mug and will not be talked out of it.",
-      "You've never once arrived on time, and honestly, why start now.",
-      "You definitely have a 'system' for something that doesn't need one.",
-      "You've sent a voice note longer than most podcast episodes.",
-      "Okay. I'm out of roasts. You win. Pull it one more time.",
+    title: "A Little Memories Freshup",
+    instructions: "Tap the diary to open it, then flip through with the arrows.",
+    // Each entry is ONE page (one side of a sheet). Pages are shown two at
+    // a time, left + right, in this exact order, and flipped through with
+    // the arrows. `type` is "image" or "video". Keep this list an EVEN
+    // length (add/remove in pairs) so every spread always shows two real
+    // pictures — an odd length leaves the last spread with a blank side.
+    // On the last spread the next-arrow turns into a "close the diary"
+    // button. TODO: swap in the real photos/videos and write the real
+    // text for each one.
+    pages: [
+      { type: "image", media: "assets/images/firstPicture.jpeg", text: "The one & only best picture we had" },
+      { type: "image", media: "assets/images/secondPicture.jpeg", text: "One of the best uni trip" },
+      { type: "video", media: "assets/tripVido.mp4", text: "Peak mrasi moment \u{1F602}" },
+      { type: "image", media: "assets/images/birthdayGift.jpeg", text: "TODO: write the closing page here" },
     ],
-    // TODO: the real heartfelt message. Use \n for line breaks — it will
-    // type out on screen character by character.
-    finalMessage:
-      "TODO: replace this with the real heartfelt birthday message.\n\nWrite it like you'd actually say it to her.",
   },
 
   finale: {
-    heading: "You unlocked every gift.",
+    // small label above the greeting
+    eyebrow: "One last thing",
+    // TODO: personalize the greeting
+    greeting: "Dear Baji,",
+    letter:
+      "Sab sa phala to happy birthday\n\nallah apko zindagi ke har wo khushian da jinke ap duaen karti rahi ho\n\nenjoy your day may you have many more\n\nya bas ek chota sa tohfa tha zada time ni mil saka bas yaahe ho saka",
     // TODO: closing line / signature, e.g. "Love, [your name]"
-    closingNote: "TODO: replace with your closing note / signature",
+    signature: "TODO: replace with your closing note / signature",
   },
 };

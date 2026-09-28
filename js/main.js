@@ -63,7 +63,13 @@ function init() {
     const card = document.querySelector(`.box-card[data-box="${n}"]`);
     if (card) card.classList.add("completed");
     if (completed[1] && completed[2] && completed[3]) {
-      document.getElementById("finale-banner").classList.remove("hidden");
+      const banner = document.getElementById("finale-banner");
+      banner.classList.remove("hidden");
+      // on phones the banner can land below the fold — scroll it into
+      // view so it's obvious there's something new to tap
+      if (window.matchMedia("(max-width: 700px)").matches) {
+        setTimeout(() => banner.scrollIntoView({ behavior: "smooth", block: "center" }), 350);
+      }
     }
   }
 
