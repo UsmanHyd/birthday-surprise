@@ -9,7 +9,7 @@ function burstConfetti(options = {}) {
     particleCount: 90,
     spread: 70,
     origin: { y: 0.6 },
-    colors: ["#ff8fb3", "#ffd6e8", "#b9a6f0", "#e3c15a"],
+    colors: ["#ff5da2", "#ffb703", "#8b5cf6", "#12b8a6"],
     ...options,
   });
 }

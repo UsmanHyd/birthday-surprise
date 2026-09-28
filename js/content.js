@@ -8,11 +8,16 @@
 const CONFIG = {
 
   // TODO: her name, used all over the site
-  herName: "Buddy",
+  herName: "Baji",
 
   landing: {
     // TODO: personalize the greeting
-    greetingLine1: "Hey Buddy...",
+    greetingLine1: "Happy Birthday, Baji!",
+    // Shown under the greeting, explains what this site actually is
+    briefing:
+      "I built you a little birthday website instead of just texting you like a normal person. There are three gifts hidden below — unwrap them all, and there's one more surprise waiting at the end.",
+    // Shown just above the box grid
+    boxesSubtitle: "Pick a gift, any gift. Open all three to unlock the finale.",
   },
 
   // Shown as a teasing speech-bubble when hovering/tapping a box,
@@ -26,28 +31,31 @@ const CONFIG = {
     "This one's cursed. Probably. Maybe.",
     "Bold choice. Bold, bold choice.",
     "Don't say I didn't warn you.",
-    "This box has seen things.",
+    "This one's been waiting for you all day.",
   ],
 
   box1: {
-    title: "The Chest",
-    instructions: "Click it as fast as you can. It won't open itself.",
+    title: "The Present",
+    instructions: "Click it as fast as you can. It won't unwrap itself.",
     clicksNeeded: 10,
     idleResetMs: 900,
-    // TODO: this is the payoff joke — write the actual bit here.
-    // Why a lizard? Inside joke context goes here so the caption lands.
-    revealCaption:
-      "TODO: replace with the real lizard joke/caption — e.g. why on earth is it a lizard?",
+    // shown first, as "the wrong gift"
+    jokeImageSrc: "assets/images/lizardGift.jpg",
+    // shown a few seconds later, once the popup below has swapped it in
+    realImageSrc: "assets/images/birthdayGift.jpeg",
+    // TODO: tweak the wording if you want — shown as a little popup right
+    // before the joke photo swaps out for the real one
+    swapMessage: "Sorry sorry, galat gift dikha diya — yeh raha real gift!",
   },
 
   box2: {
-    title: "The Joker Box",
+    title: "The Pop-Up Box",
     instructions: "Turn the crank. Keep turning. You'll regret it.",
     turnsNeeded: 3,
     // TODO: put the real audio file at this exact path (see assets/audio/README.txt)
     audioSrc: "assets/audio/happy-birthday-scream.mp3",
     // TODO: caption shown under the joker when it pops out
-    revealCaption: "TODO: replace with a funny caption for the joker reveal",
+    revealCaption: "TODO: replace with a funny caption for the pop-up reveal",
   },
 
   box3: {
@@ -71,7 +79,7 @@ const CONFIG = {
   },
 
   finale: {
-    heading: "You unlocked everything.",
+    heading: "You unlocked every gift.",
     // TODO: closing line / signature, e.g. "Love, [your name]"
     closingNote: "TODO: replace with your closing note / signature",
   },

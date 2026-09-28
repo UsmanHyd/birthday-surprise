@@ -8,6 +8,8 @@ function showScreen(id) {
 
 function fillLandingText() {
   document.getElementById("landing-greeting-1").textContent = CONFIG.landing.greetingLine1;
+  document.getElementById("landing-briefing").textContent = CONFIG.landing.briefing;
+  document.getElementById("boxes-subtitle").textContent = CONFIG.landing.boxesSubtitle;
 }
 
 function initTeaseBubble() {
