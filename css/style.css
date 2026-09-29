@@ -1088,7 +1088,7 @@ button {
      unaffected by how big the spread actually is, so this needs no
      changes to the flip logic itself. */
   .diary-spread {
-    --diary-page-w: min(70vw, 300px);
+    --diary-page-w: min(85vw, 360px);
     max-width: 100%;
     overflow-x: auto;
     scroll-snap-type: x proximity;
