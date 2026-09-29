@@ -38,7 +38,9 @@
 /* ==========================================================
    RESET / BASE
    ========================================================== */
-* { box-sizing: border-box; }
+/* kills the default blue/gray flash mobile browsers show on tap for any
+   clickable element — desktop is unaffected, this only exists on touch */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; }
 body {
   margin: 0;
@@ -1070,10 +1072,32 @@ button {
 }
 
 @media (max-width: 460px) {
-  .diary-book { gap: 0.4rem; }
-  .diary-spread { --diary-page-w: min(calc(50vw - 75px), 145px); }
+  /* on phones, floating the arrows over the page edges instead of giving
+     them their own row-space means the pages themselves can be much
+     bigger — there's no arrow-width/gap to subtract from the available
+     width anymore, just the screen padding and the spine */
+  .diary-book {
+    position: relative;
+    gap: 0;
+  }
+  .diary-spread {
+    --diary-page-w: min(calc(50vw - 30px), 175px);
+  }
   .diary-page, .diary-leaf { padding: 0.7rem; }
-  .diary-arrow { width: 42px; height: 42px; font-size: 1rem; }
+  .diary-arrow {
+    position: absolute;
+    top: 50%;
+    left: auto;
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+    z-index: 10;
+    transform: translateY(-50%);
+  }
+  .diary-arrow:hover { transform: translateY(-50%) scale(1.08); }
+  .diary-arrow:active { transform: translateY(-50%) scale(0.95); }
+  .diary-arrow-prev { left: 2px; }
+  .diary-arrow-next { right: 2px; }
   .diary-text { font-size: 1rem; }
 }
 
