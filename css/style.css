@@ -1080,10 +1080,27 @@ button {
     position: relative;
     gap: 0;
   }
+  /* two pages side-by-side at a size big enough to actually read/see
+     clearly won't both fit on a phone screen at once — rather than
+     shrink them down to fit (too small to see), let each page be close
+     to full width and let the spread scroll/swipe sideways to reach the
+     second page. The flip animation's own math (all % / calc-based) is
+     unaffected by how big the spread actually is, so this needs no
+     changes to the flip logic itself. */
   .diary-spread {
-    --diary-page-w: min(calc(50vw - 30px), 175px);
+    --diary-page-w: min(70vw, 300px);
+    max-width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .diary-page, .diary-leaf { padding: 0.7rem; }
+  .diary-spread::-webkit-scrollbar { display: none; }
+  .diary-page, .diary-leaf {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .diary-page, .diary-leaf { padding: 0.9rem; }
   .diary-arrow {
     position: absolute;
     top: 50%;
@@ -1098,7 +1115,7 @@ button {
   .diary-arrow:active { transform: translateY(-50%) scale(0.95); }
   .diary-arrow-prev { left: 2px; }
   .diary-arrow-next { right: 2px; }
-  .diary-text { font-size: 1rem; }
+  .diary-text { font-size: 1.1rem; }
 }
 
 /* ==========================================================

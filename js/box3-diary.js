@@ -71,10 +71,13 @@ function initBox3({ onComplete }) {
   }
 
   function renderStatic(index) {
-    const spread = spreads[index] || [null, null];
-    pageLeft.innerHTML = pageHTML(spread[0]);
-    pageRight.innerHTML = pageHTML(spread[1]);
+    const pair = spreads[index] || [null, null];
+    pageLeft.innerHTML = pageHTML(pair[0]);
+    pageRight.innerHTML = pageHTML(pair[1]);
     updateArrows();
+    // on phones the spread is wider than the screen and scrolls
+    // sideways — always land back on the left page for a fresh spread
+    spread.scrollLeft = 0;
   }
 
   function resetLeaf(leaf) {
