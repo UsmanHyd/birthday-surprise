@@ -1080,6 +1080,98 @@ button {
 /* ==========================================================
    FINALE — THE LETTER
    ========================================================== */
+/* shown first: an actual envelope you tap to open, before the real
+   letter is revealed underneath */
+.letter-locked {
+  padding: 0;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: opacity 0.35s ease 0.35s, transform 0.35s ease 0.35s;
+}
+.envelope {
+  position: relative;
+  width: min(72vw, 280px);
+  height: min(50vw, 195px);
+  perspective: 900px;
+  animation: envelopeFloat 2.6s ease-in-out infinite;
+}
+@keyframes envelopeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.envelope-body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--pink-light), var(--purple-light));
+  border-radius: 14px;
+  box-shadow: 0 24px 50px rgba(139, 63, 224, 0.4);
+}
+.envelope-paper {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 6%;
+  height: 62%;
+  background: var(--paper);
+  border-radius: 8px 8px 3px 3px;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 62%;
+  background: linear-gradient(160deg, var(--pink), var(--purple));
+  clip-path: polygon(0 0, 100% 0, 50% 92%);
+  border-radius: 14px 14px 0 0;
+  transform-origin: top center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.6, 0, 0.4, 1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+.envelope-seal {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.7rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+.letter-locked-label {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--pink-deep);
+  text-align: center;
+}
+.letter-locked-hint {
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  color: var(--purple-deep);
+  opacity: 0.8;
+}
+
+/* tapped: the flap lifts open and the paper slides up out of the
+   envelope, then the whole envelope fades away, handing off to the
+   full letter underneath */
+.letter-locked.unlocking .envelope { animation: none; }
+.letter-locked.unlocking .envelope-flap {
+  transform: rotateX(-160deg);
+}
+.letter-locked.unlocking .envelope-paper {
+  transform: translateY(-42%);
+}
+.letter-locked.unlocking {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.92);
+  pointer-events: none;
+}
+
 .letter-card {
   max-width: 30rem;
   width: 100%;
@@ -1090,7 +1182,13 @@ button {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: letterEmerge 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+/* rises up and unfolds into place, continuing the motion of the paper
+   sliding out of the envelope above it */
+@keyframes letterEmerge {
+  from { opacity: 0; transform: translateY(50px) scale(0.75); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .letter-seal {
   font-size: 2.6rem;

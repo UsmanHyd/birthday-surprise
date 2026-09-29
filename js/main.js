@@ -54,7 +54,7 @@ function initTeaseBubble() {
 function init() {
   fillLandingText();
   initTeaseBubble();
-  initFinale();
+  const finale = initFinale();
 
   const completed = { 1: false, 2: false, 3: false };
 
@@ -91,8 +91,8 @@ function init() {
   });
 
   document.getElementById("finale-banner").addEventListener("click", () => {
+    finale.reset();
     showScreen("screen-finale");
-    playFinale();
   });
 }
 

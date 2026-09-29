@@ -314,7 +314,19 @@
   <!-- SCREEN: FINALE -->
   <!-- ============================================================ -->
   <section id="screen-finale" class="screen">
-    <div class="letter-card">
+    <button id="letter-locked" class="letter-locked" aria-label="Tap to open the letter">
+      <div class="envelope" aria-hidden="true">
+        <div class="envelope-body"></div>
+        <div class="envelope-paper"></div>
+        <div id="envelope-flap" class="envelope-flap">
+          <span class="envelope-seal">&#128140;</span>
+        </div>
+      </div>
+      <span class="letter-locked-label">A Letter For You</span>
+      <span class="letter-locked-hint">tap to open</span>
+    </button>
+
+    <div id="letter-card" class="letter-card hidden">
       <span class="letter-seal" aria-hidden="true">&#128140;</span>
       <p class="letter-eyebrow" id="finale-eyebrow"></p>
       <p class="letter-greeting" id="finale-greeting"></p>

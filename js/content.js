@@ -15,7 +15,7 @@ const CONFIG = {
     greetingLine1: "Happy Birthday, Baji!",
     // Shown under the greeting, explains what this site actually is
     briefing:
-      "I built you a little birthday website instead of just texting you like a normal person. There are three gifts hidden below — unwrap them all, and there's one more surprise waiting at the end.",
+      "Ab bola tha to karni parti ha na phir, ya lo bana de",
     // Shown just above the box grid
     boxesSubtitle: "Pick a gift, any gift. Open all three to unlock the finale.",
   },
@@ -24,14 +24,9 @@ const CONFIG = {
   // before it's opened. Add as many as you like, one is picked at random.
   // These are safe as-is, but feel free to make them more "you two".
   teaseLines: [
-    "Are you SURE about this?",
-    "Really? You want to open this one?",
-    "Last chance to back out...",
-    "I would think twice if I were you.",
-    "This one's cursed. Probably. Maybe.",
-    "Bold choice. Bold, bold choice.",
-    "Don't say I didn't warn you.",
-    "This one's been waiting for you all day.",
+    "Ma kahta hon sooch lo",
+    "Sooch lo",
+    "are you super sure",
   ],
 
   box1: {
@@ -91,7 +86,6 @@ const CONFIG = {
     greeting: "Dear Baji,",
     letter:
       "Sab sa phala to happy birthday\n\nallah apko zindagi ke har wo khushian da jinke ap duaen karti rahi ho\n\nenjoy your day may you have many more\n\nya bas ek chota sa tohfa tha zada time ni mil saka bas yaahe ho saka",
-    // TODO: closing line / signature, e.g. "Love, [your name]"
-    signature: "TODO: replace with your closing note / signature",
+    signature: "Your bro",
   },
 };
