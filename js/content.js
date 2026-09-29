@@ -75,7 +75,7 @@ const CONFIG = {
       { type: "image", media: "assets/images/firstPicture.jpeg", text: "The one & only best picture we had" },
       { type: "image", media: "assets/images/secondPicture.jpeg", text: "One of the best uni trip" },
       { type: "video", media: "assets/tripVido.mp4", text: "Peak mrasi moment \u{1F602}" },
-      { type: "image", media: "assets/images/birthdayGift.jpeg", text: "TODO: write the closing page here" },
+      { type: "video", media: "assets/bestMoment.mp4", text: "Most memoriable moment" },
     ],
   },
 
