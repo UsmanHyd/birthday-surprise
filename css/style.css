@@ -1076,15 +1076,9 @@ button {
      them their own row-space means the pages themselves can be much
      bigger — there's no arrow-width/gap to subtract from the available
      width anymore, just the screen padding and the spine */
-  /* box3-game's column layout doesn't stretch its children by default,
-     so .diary-scene and .diary-book need their own explicit width:100%
-     — otherwise .diary-spread's max-width:100% has nothing definite to
-     resolve against anywhere up the chain, and silently does nothing */
-  .diary-scene { width: 100%; }
   .diary-book {
     position: relative;
     gap: 0;
-    width: 100%;
   }
   /* two pages side-by-side at a size big enough to actually read/see
      clearly won't both fit on a phone screen at once — rather than
@@ -1094,13 +1088,7 @@ button {
      unaffected by how big the spread actually is, so this needs no
      changes to the flip logic itself. */
   .diary-spread {
-    --diary-page-w: min(76vw, 310px);
-    /* flex items default to min-width:auto, which refuses to shrink
-       below their content's natural size — without this, max-width and
-       overflow-x below silently do nothing, and the oversized spread
-       just spills out evenly past both edges of the screen instead of
-       actually scrolling */
-    min-width: 0;
+    --diary-page-w: min(70vw, 300px);
     max-width: 100%;
     overflow-x: auto;
     scroll-snap-type: x proximity;
