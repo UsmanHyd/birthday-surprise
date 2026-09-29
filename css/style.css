@@ -1251,10 +1251,23 @@ button {
    RESPONSIVE
    ========================================================== */
 @media (max-width: 480px) {
-  .box-grid { gap: 0.9rem; }
-  .box-card { width: 46vw; }
-  .box-icon-badge { width: 38px; height: 38px; }
-  .box-icon { width: 22px; height: 22px; }
+  /* keep all 3 gift cards in one row like desktop instead of stacking —
+     46vw (the old value) plus gaps and screen padding added up to more
+     than 100vw for two cards, let alone three, forcing them to wrap onto
+     their own rows. This sizes each card as exactly a third of what's
+     actually left after the screen's own padding and the two gaps
+     between cards, so three always fit side by side. */
+  .box-grid { gap: 0.5rem; }
+  .box-card { width: calc((100vw - 56px) / 3); border-radius: 16px; }
+  .ticket-top { padding: 0.5rem 0.5rem 0.3rem; }
+  .ticket-index { font-size: 0.65rem; }
+  .box-icon-badge { width: 26px; height: 26px; }
+  .box-icon { width: 15px; height: 15px; }
+  .ticket-divider { margin: 0 0.5rem; }
+  .ticket-bottom { padding: 0.4rem 0.5rem 0.6rem; gap: 0.2rem; }
+  .box-label { font-size: 0.7rem; line-height: 1.15; }
+  .box-desc { font-size: 0.58rem; line-height: 1.25; }
+  .box-check { width: 20px; height: 20px; font-size: 0.65rem; top: -6px; right: -6px; }
 }
 
 /* ==========================================================
